@@ -1,9 +1,10 @@
 use std::fs;
 
 pub mod day1;
+mod day2;
 
 fn main() {
-    println!("{}", day1::run_star2(read_file(1, false)));
+    println!("{}", day2::run_star2(read_file(2, false)));
 }
 
 pub fn read_file(day: usize, example: bool) -> String {
