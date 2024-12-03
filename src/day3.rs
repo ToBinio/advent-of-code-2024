@@ -1,25 +1,34 @@
+use crate::Day;
 use regex::Regex;
 
-pub fn run_star1(file: String) -> usize {
-    parse_muls(&file).iter().map(|(_, val)| val).sum()
-}
+pub struct Day3 {}
 
-pub fn run_star2(file: String) -> usize {
-    let valid_ranges = build_on_ranges(&file);
-    let muls = parse_muls(&file);
-
-    let mut sum = 0;
-
-    'outer: for (start, value) in muls {
-        for (range_start, range_end) in &valid_ranges {
-            if (*range_start..*range_end).contains(&start) {
-                sum += value;
-                continue 'outer;
-            }
-        }
+impl Day<usize> for Day3 {
+    fn number() -> usize {
+        3
     }
 
-    sum
+    fn run_star1(file: String) -> usize {
+        parse_muls(&file).iter().map(|(_, val)| val).sum()
+    }
+
+    fn run_star2(file: String) -> usize {
+        let valid_ranges = build_on_ranges(&file);
+        let muls = parse_muls(&file);
+
+        let mut sum = 0;
+
+        'outer: for (start, value) in muls {
+            for (range_start, range_end) in &valid_ranges {
+                if (*range_start..*range_end).contains(&start) {
+                    sum += value;
+                    continue 'outer;
+                }
+            }
+        }
+
+        sum
+    }
 }
 
 fn parse_muls(file: &str) -> Vec<(usize, usize)> {
@@ -107,18 +116,18 @@ fn build_on_ranges(file: &str) -> Vec<(usize, usize)> {
 
 #[cfg(test)]
 mod tests {
-    use crate::day3::{run_star1, run_star2};
-    use crate::read_file;
+    use crate::day3::Day3;
+    use crate::Day;
 
     #[test]
     fn example_star1() {
-        let result = run_star1(read_file(3, true, 0));
+        let result = Day3::run_star1(Day3::get_example());
         assert_eq!(result, 161);
     }
 
     #[test]
     fn example_star2() {
-        let result = run_star2(read_file(3, true, 2));
+        let result = Day3::run_star2(Day3::get_example_part(2));
         assert_eq!(result, 48);
     }
 }

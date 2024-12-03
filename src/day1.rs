@@ -1,27 +1,36 @@
+use crate::Day;
 use std::collections::HashMap;
 
-pub fn run_star1(file: String) -> usize {
-    let (list1, list2) = parse_inputs(file);
+pub struct Day1 {}
 
-    list1
-        .iter()
-        .zip(list2.iter())
-        .map(|(elem1, elem2)| elem2.abs_diff(*elem1))
-        .sum()
-}
+impl Day<usize> for Day1 {
+    fn number() -> usize {
+        1
+    }
 
-pub fn run_star2(file: String) -> usize {
-    let (list1, list2) = parse_inputs(file);
+    fn run_star1(file: String) -> usize {
+        let (list1, list2) = parse_inputs(file);
 
-    let map = list2.iter().fold(HashMap::new(), |mut map, elem| {
-        *map.entry(*elem).or_insert(0) += 1;
-        map
-    });
+        list1
+            .iter()
+            .zip(list2.iter())
+            .map(|(elem1, elem2)| elem2.abs_diff(*elem1))
+            .sum()
+    }
 
-    list1
-        .iter()
-        .map(|elem| elem * map.get(elem).unwrap_or(&0))
-        .sum()
+    fn run_star2(file: String) -> usize {
+        let (list1, list2) = parse_inputs(file);
+
+        let map = list2.iter().fold(HashMap::new(), |mut map, elem| {
+            *map.entry(*elem).or_insert(0) += 1;
+            map
+        });
+
+        list1
+            .iter()
+            .map(|elem| elem * map.get(elem).unwrap_or(&0))
+            .sum()
+    }
 }
 
 fn parse_inputs(file: String) -> (Vec<usize>, Vec<usize>) {
@@ -44,18 +53,18 @@ fn parse_inputs(file: String) -> (Vec<usize>, Vec<usize>) {
 
 #[cfg(test)]
 mod tests {
-    use crate::day1::{run_star1, run_star2};
-    use crate::read_file;
+    use crate::day1::Day1;
+    use crate::Day;
 
     #[test]
     fn example_star1() {
-        let result = run_star1(read_file(1, true, 0));
+        let result = Day1::run_star1(Day1::get_example());
         assert_eq!(result, 11);
     }
 
     #[test]
     fn example_star2() {
-        let result = run_star2(read_file(1, true, 0));
+        let result = Day1::run_star2(Day1::get_example());
         assert_eq!(result, 31);
     }
 }

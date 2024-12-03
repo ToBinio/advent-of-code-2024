@@ -1,3 +1,5 @@
+use crate::day3::Day3;
+use std::fmt::{Debug, Display};
 use std::fs;
 
 mod day1;
@@ -5,7 +7,25 @@ mod day2;
 mod day3;
 
 fn main() {
-    println!("{}", day3::run_star2(read_file(3, false, 0)));
+    println!("{}", Day3::run_star2(Day3::get_file()));
+}
+trait Day<T: Debug> {
+    fn number() -> usize;
+    fn run_star1(file: String) -> T;
+
+    fn run_star2(file: String) -> T;
+
+    fn get_file() -> String {
+        read_file(Self::number(), false, 0)
+    }
+
+    fn get_example() -> String {
+        read_file(Self::number(), true, 0)
+    }
+
+    fn get_example_part(part: usize) -> String {
+        read_file(Self::number(), true, part)
+    }
 }
 
 pub fn read_file(day: usize, example: bool, part: usize) -> String {

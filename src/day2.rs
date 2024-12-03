@@ -1,13 +1,22 @@
-pub fn run_star1(file: String) -> usize {
-    parse_line(&file).filter(|line| is_valid_line(line)).count()
-}
+use crate::Day;
 
-pub fn run_star2(file: String) -> usize {
-    parse_line(&file)
-        .filter(|line| is_valid_line_with_tolerance(line))
-        .count()
-}
+pub struct Day2 {}
 
+impl Day<usize> for Day2 {
+    fn number() -> usize {
+        2
+    }
+
+    fn run_star1(file: String) -> usize {
+        parse_line(&file).filter(|line| is_valid_line(line)).count()
+    }
+
+    fn run_star2(file: String) -> usize {
+        parse_line(&file)
+            .filter(|line| is_valid_line_with_tolerance(line))
+            .count()
+    }
+}
 fn parse_line(file: &String) -> impl Iterator<Item = Vec<usize>> + '_ {
     file.lines().map(|line| {
         line.split(" ")
@@ -67,18 +76,18 @@ fn decreasing(line: &Vec<usize>) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::day2::{run_star1, run_star2};
-    use crate::read_file;
+    use crate::day2::Day2;
+    use crate::Day;
 
     #[test]
     fn example_star1() {
-        let result = run_star1(read_file(2, true, 0));
+        let result = Day2::run_star1(Day2::get_example());
         assert_eq!(result, 2);
     }
 
     #[test]
     fn example_star2() {
-        let result = run_star2(read_file(2, true, 0));
+        let result = Day2::run_star2(Day2::get_example());
         assert_eq!(result, 4);
     }
 }
