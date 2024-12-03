@@ -1,6 +1,3 @@
-use std::iter::Map;
-use std::str::Lines;
-
 pub fn run_star1(file: String) -> usize {
     parse_line(&file).filter(|line| is_valid_line(line)).count()
 }
@@ -75,13 +72,13 @@ mod tests {
 
     #[test]
     fn example_star1() {
-        let result = run_star1(read_file(2, true));
+        let result = run_star1(read_file(2, true, 0));
         assert_eq!(result, 2);
     }
 
     #[test]
     fn example_star2() {
-        let result = run_star2(read_file(2, true));
+        let result = run_star2(read_file(2, true, 0));
         assert_eq!(result, 4);
     }
 }

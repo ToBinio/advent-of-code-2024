@@ -49,13 +49,13 @@ mod tests {
 
     #[test]
     fn example_star1() {
-        let result = run_star1(read_file(1, true));
+        let result = run_star1(read_file(1, true, 0));
         assert_eq!(result, 11);
     }
 
     #[test]
     fn example_star2() {
-        let result = run_star2(read_file(1, true));
+        let result = run_star2(read_file(1, true, 0));
         assert_eq!(result, 31);
     }
 }

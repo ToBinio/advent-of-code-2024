@@ -1,17 +1,23 @@
 use std::fs;
 
-pub mod day1;
+mod day1;
 mod day2;
+mod day3;
 
 fn main() {
-    println!("{}", day2::run_star2(read_file(2, false)));
+    println!("{}", day3::run_star2(read_file(3, false, 0)));
 }
 
-pub fn read_file(day: usize, example: bool) -> String {
+pub fn read_file(day: usize, example: bool, part: usize) -> String {
     fs::read_to_string(format!(
-        "resources/{}/day{}.txt",
+        "resources/{}/day{}{}.txt",
         if example { "example" } else { "input" },
-        day
+        day,
+        if part != 0 {
+            format!(".{}", part)
+        } else {
+            "".to_string()
+        },
     ))
     .unwrap()
 }
