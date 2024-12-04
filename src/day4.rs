@@ -25,41 +25,16 @@ impl Day<usize> for Day4 {
         for y in 0..data.len() {
             for x in 0..data[0].len() {
                 if x < data[0].len() - 3 {
-                    if checkText("XMAS", &data, (x, y), HORIZONTAL_OFFSET, false) {
-                        count += 1;
-                    };
-
-                    if checkText("XMAS", &data, (x, y), HORIZONTAL_OFFSET, true) {
-                        count += 1;
-                    };
+                    check_direction("XMAS", &data, &mut count, (x, y), HORIZONTAL_OFFSET);
                 }
 
                 if y < data.len() - 3 {
-                    if checkText("XMAS", &data, (x, y), VERTICAL_OFFSET, false) {
-                        count += 1;
-                    };
-
-                    if checkText("XMAS", &data, (x, y), VERTICAL_OFFSET, true) {
-                        count += 1;
-                    };
+                    check_direction("XMAS", &data, &mut count, (x, y), VERTICAL_OFFSET);
                 }
 
                 if y < data.len() - 3 && x < data[0].len() - 3 {
-                    if checkText("XMAS", &data, (x, y), DIAGONAL_RIGHT_OFFSET, false) {
-                        count += 1;
-                    };
-
-                    if checkText("XMAS", &data, (x, y), DIAGONAL_RIGHT_OFFSET, true) {
-                        count += 1;
-                    };
-
-                    if checkText("XMAS", &data, (x, y), DIAGONAL_LEFT_OFFSET, false) {
-                        count += 1;
-                    };
-
-                    if checkText("XMAS", &data, (x, y), DIAGONAL_LEFT_OFFSET, true) {
-                        count += 1;
-                    };
+                    check_direction("XMAS", &data, &mut count, (x, y), DIAGONAL_RIGHT_OFFSET);
+                    check_direction("XMAS", &data, &mut count, (x, y), DIAGONAL_LEFT_OFFSET);
                 }
             }
         }
@@ -75,12 +50,12 @@ impl Day<usize> for Day4 {
         for y in 0..(data.len() - 2) {
             for x in 0..(data[0].len() - 2) {
                 let has_right_diagonal =
-                    checkText("MAS", &data, (x, y), DIAGONAL_RIGHT_OFFSET, false)
-                        || checkText("MAS", &data, (x, y), DIAGONAL_RIGHT_OFFSET, true);
+                    check_text("MAS", &data, (x, y), DIAGONAL_RIGHT_OFFSET, false)
+                        || check_text("MAS", &data, (x, y), DIAGONAL_RIGHT_OFFSET, true);
 
                 let has_left_diagonal =
-                    checkText("MAS", &data, (x, y), SMALL_DIAGONAL_LEFT_OFFSET, false)
-                        || checkText("MAS", &data, (x, y), SMALL_DIAGONAL_LEFT_OFFSET, true);
+                    check_text("MAS", &data, (x, y), SMALL_DIAGONAL_LEFT_OFFSET, false)
+                        || check_text("MAS", &data, (x, y), SMALL_DIAGONAL_LEFT_OFFSET, true);
 
                 if has_right_diagonal && has_left_diagonal {
                     count += 1;
@@ -92,11 +67,27 @@ impl Day<usize> for Day4 {
     }
 }
 
+fn check_direction(
+    word: &str,
+    data: &Vec<Vec<char>>,
+    count: &mut usize,
+    pos: (usize, usize),
+    offset: [(usize, usize); 4],
+) {
+    if check_text(word, &data, pos, offset, false) {
+        *count += 1;
+    }
+
+    if check_text(word, &data, pos, offset, true) {
+        *count += 1;
+    }
+}
+
 fn parse_input(file: String) -> Vec<Vec<char>> {
     file.lines().map(|line| line.chars().collect()).collect()
 }
 
-fn checkText(
+fn check_text(
     string: &str,
     data: &Vec<Vec<char>>,
     pos: (usize, usize),
