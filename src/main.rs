@@ -1,5 +1,5 @@
-use crate::day3::Day3;
 use crate::day4::Day4;
+use crate::day5::Day5;
 use std::fmt::{Debug, Display};
 use std::fs;
 
@@ -7,9 +7,10 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 fn main() {
-    println!("{}", Day4::run_star2(Day4::get_file()));
+    println!("{}", Day5::run_star2(Day5::get_file()));
 }
 trait Day<T: Debug> {
     fn number() -> usize;
