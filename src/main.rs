@@ -1,16 +1,22 @@
 use crate::day4::Day4;
 use crate::day5::Day5;
+use crate::day6::Day6;
 use std::fmt::{Debug, Display};
 use std::fs;
+use std::time::Instant;
 
 mod day1;
 mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 
 fn main() {
-    println!("{}", Day5::run_star2(Day5::get_file()));
+    let instant = Instant::now();
+
+    println!("{}", Day6::run_star2(Day6::get_file()));
+    println!("{:?}", instant.elapsed());
 }
 trait Day<T: Debug> {
     fn number() -> usize;

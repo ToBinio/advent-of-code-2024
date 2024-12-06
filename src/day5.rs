@@ -1,7 +1,6 @@
 use crate::Day;
-use regex::Regex;
 use std::cmp::Ordering;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 pub struct Day5 {}
 impl Day<usize> for Day5 {
