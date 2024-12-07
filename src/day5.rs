@@ -13,7 +13,7 @@ impl Day<usize> for Day5 {
 
         manuals
             .iter()
-            .filter(|manual| is_valid_manual(*manual, &rules))
+            .filter(|manual| is_valid_manual(manual, &rules))
             .map(|manuel| manuel[manuel.len() / 2])
             .sum()
     }
@@ -23,7 +23,7 @@ impl Day<usize> for Day5 {
 
         manuals
             .iter_mut()
-            .filter(|manual| !is_valid_manual(*manual, &rules))
+            .filter(|manual| !is_valid_manual(manual, &rules))
             .map(|manual| {
                 sort_manual(manual, &rules);
                 manual
@@ -33,7 +33,7 @@ impl Day<usize> for Day5 {
     }
 }
 
-fn sort_manual(manual: &mut Vec<usize>, rules: &HashMap<usize, Vec<usize>>) {
+fn sort_manual(manual: &mut [usize], rules: &HashMap<usize, Vec<usize>>) {
     manual.sort_by(|a, b| {
         if let Some(after) = rules.get(a) {
             if after.contains(b) {
@@ -51,7 +51,7 @@ fn sort_manual(manual: &mut Vec<usize>, rules: &HashMap<usize, Vec<usize>>) {
     })
 }
 
-fn is_valid_manual(manual: &Vec<usize>, rules: &HashMap<usize, Vec<usize>>) -> bool {
+fn is_valid_manual(manual: &[usize], rules: &HashMap<usize, Vec<usize>>) -> bool {
     let manual = manual
         .iter()
         .enumerate()
@@ -85,7 +85,7 @@ fn parse_input(file: String) -> (Vec<Vec<usize>>, HashMap<usize, Vec<usize>>) {
 
     let mut lines = file.lines();
 
-    while let Some(line) = lines.next() {
+    for line in lines.by_ref() {
         if line.is_empty() {
             break;
         }
@@ -98,7 +98,7 @@ fn parse_input(file: String) -> (Vec<Vec<usize>>, HashMap<usize, Vec<usize>>) {
         rules.push((first, second));
     }
 
-    while let Some(line) = lines.next() {
+    for line in lines {
         let manuel: Vec<usize> = line.split(',').map(|s| s.parse().unwrap()).collect();
 
         manuels.push(manuel);

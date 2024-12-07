@@ -1,5 +1,4 @@
 use crate::Day;
-use regex::Regex;
 
 pub struct Day4 {}
 
@@ -69,16 +68,16 @@ impl Day<usize> for Day4 {
 
 fn check_direction(
     word: &str,
-    data: &Vec<Vec<char>>,
+    data: &[Vec<char>],
     count: &mut usize,
     pos: (usize, usize),
     offset: [(usize, usize); 4],
 ) {
-    if check_text(word, &data, pos, offset, false) {
+    if check_text(word, data, pos, offset, false) {
         *count += 1;
     }
 
-    if check_text(word, &data, pos, offset, true) {
+    if check_text(word, data, pos, offset, true) {
         *count += 1;
     }
 }
@@ -89,7 +88,7 @@ fn parse_input(file: String) -> Vec<Vec<char>> {
 
 fn check_text(
     string: &str,
-    data: &Vec<Vec<char>>,
+    data: &[Vec<char>],
     pos: (usize, usize),
     offset: [(usize, usize); 4],
     inverse: bool,

@@ -1,10 +1,4 @@
 use crate::Day;
-use rayon::iter::IntoParallelRefIterator;
-use rayon::iter::ParallelIterator;
-use std::cmp::Ordering;
-use std::collections::{HashMap, HashSet};
-use std::ops::Not;
-use std::ptr::eq;
 
 pub struct Day7 {}
 impl Day<usize> for Day7 {
@@ -44,7 +38,7 @@ impl Equation {
     }
 
     fn check_valid(&self, temp_result: usize, index: usize, allow_concatenation: bool) -> bool {
-        if (index >= self.values.len()) {
+        if index >= self.values.len() {
             return temp_result == self.result;
         }
 
@@ -89,14 +83,13 @@ fn parse_input(file: String) -> Vec<Equation> {
             let values = split
                 .next()
                 .unwrap()
-                .trim()
                 .split_whitespace()
                 .map(|num| num.parse().unwrap())
                 .collect();
 
             Equation {
-                result: result,
-                values: values,
+                result,
+                values,
             }
         })
         .collect()

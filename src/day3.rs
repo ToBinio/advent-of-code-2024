@@ -35,7 +35,7 @@ fn parse_muls(file: &str) -> Vec<(usize, usize)> {
     let regex = Regex::new(r"mul\(\d{1,3},\d{1,3}\)").unwrap();
 
     regex
-        .captures_iter(&file)
+        .captures_iter(file)
         .map(|capture| {
             (
                 capture.get(0).unwrap().end(),

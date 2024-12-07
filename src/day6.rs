@@ -1,16 +1,15 @@
 use crate::Day;
 use rayon::iter::IntoParallelRefIterator;
 use rayon::iter::ParallelIterator;
-use std::cmp::Ordering;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::ops::Not;
 
 pub struct Day6 {}
 
 #[derive(Clone)]
 enum Tile {
-    EMPTY,
-    OBSTACLE,
+    Empty,
+    Obstacle,
 }
 impl Day<usize> for Day6 {
     fn number() -> usize {
@@ -35,7 +34,7 @@ impl Day<usize> for Day6 {
             .par_iter()
             .filter(|tile_to_block| {
                 let mut map = map.clone();
-                map[tile_to_block.1 as usize][tile_to_block.0 as usize] = Tile::OBSTACLE;
+                map[tile_to_block.1 as usize][tile_to_block.0 as usize] = Tile::Obstacle;
 
                 is_loop(&map, &guard_pos)
             })
@@ -43,8 +42,8 @@ impl Day<usize> for Day6 {
     }
 }
 
-fn calc_path(map: &Vec<Vec<Tile>>, guard_pos: &(i32, i32)) -> HashSet<(i32, i32)> {
-    let mut guard_pos = guard_pos.clone();
+fn calc_path(map: &[Vec<Tile>], guard_pos: &(i32, i32)) -> HashSet<(i32, i32)> {
+    let mut guard_pos = *guard_pos;
     let mut guard_direction = (0, -1);
 
     let mut visited_tiles = HashSet::new();
@@ -60,7 +59,7 @@ fn calc_path(map: &Vec<Vec<Tile>>, guard_pos: &(i32, i32)) -> HashSet<(i32, i32)
             break;
         }
 
-        if let Tile::OBSTACLE = map[next_guard_pos.1 as usize][next_guard_pos.0 as usize] {
+        if let Tile::Obstacle = map[next_guard_pos.1 as usize][next_guard_pos.0 as usize] {
             guard_direction = (-guard_direction.1, guard_direction.0);
             continue;
         }
@@ -71,8 +70,8 @@ fn calc_path(map: &Vec<Vec<Tile>>, guard_pos: &(i32, i32)) -> HashSet<(i32, i32)
     visited_tiles
 }
 
-fn is_loop(map: &Vec<Vec<Tile>>, guard_pos: &(i32, i32)) -> bool {
-    let mut guard_pos = guard_pos.clone();
+fn is_loop(map: &[Vec<Tile>], guard_pos: &(i32, i32)) -> bool {
+    let mut guard_pos = *guard_pos;
     let mut guard_direction = (0, -1);
 
     let mut visited_tiles = HashSet::new();
@@ -88,7 +87,7 @@ fn is_loop(map: &Vec<Vec<Tile>>, guard_pos: &(i32, i32)) -> bool {
             break;
         }
 
-        if let Tile::OBSTACLE = map[next_guard_pos.1 as usize][next_guard_pos.0 as usize] {
+        if let Tile::Obstacle = map[next_guard_pos.1 as usize][next_guard_pos.0 as usize] {
             guard_direction = (-guard_direction.1, guard_direction.0);
             continue;
         }
@@ -103,7 +102,7 @@ fn is_loop(map: &Vec<Vec<Tile>>, guard_pos: &(i32, i32)) -> bool {
     false
 }
 
-fn is_outside(map: &Vec<Vec<Tile>>, next_guard_pos: (i32, i32)) -> bool {
+fn is_outside(map: &[Vec<Tile>], next_guard_pos: (i32, i32)) -> bool {
     next_guard_pos.0 < 0
         || next_guard_pos.1 < 0
         || next_guard_pos.1 >= map.len() as i32
@@ -120,11 +119,11 @@ fn parse_input(file: String) -> (Vec<Vec<Tile>>, (i32, i32)) {
             line.chars()
                 .enumerate()
                 .map(|(x, char)| match char {
-                    '.' => Tile::EMPTY,
-                    '#' => Tile::OBSTACLE,
+                    '.' => Tile::Empty,
+                    '#' => Tile::Obstacle,
                     '^' => {
                         guard = (x as i32, y as i32);
-                        Tile::EMPTY
+                        Tile::Empty
                     }
                     _ => unreachable!(),
                 })

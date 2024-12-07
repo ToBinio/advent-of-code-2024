@@ -17,7 +17,7 @@ impl Day<usize> for Day2 {
             .count()
     }
 }
-fn parse_line(file: &String) -> impl Iterator<Item = Vec<usize>> + '_ {
+fn parse_line(file: &str) -> impl Iterator<Item = Vec<usize>> + '_ {
     file.lines().map(|line| {
         line.split(" ")
             .map(|value| value.parse::<usize>().unwrap())
@@ -25,7 +25,7 @@ fn parse_line(file: &String) -> impl Iterator<Item = Vec<usize>> + '_ {
     })
 }
 
-fn is_valid_line(line: &Vec<usize>) -> bool {
+fn is_valid_line(line: &[usize]) -> bool {
     for i in 1..line.len() {
         let diff = line[i - 1].abs_diff(line[i]);
 
@@ -37,13 +37,13 @@ fn is_valid_line(line: &Vec<usize>) -> bool {
     increasing(line) || decreasing(line)
 }
 
-fn is_valid_line_with_tolerance(line: &Vec<usize>) -> bool {
+fn is_valid_line_with_tolerance(line: &[usize]) -> bool {
     if is_valid_line(line) {
         return true;
     }
 
     for i in 0..line.len() {
-        let mut new_line = line.clone();
+        let mut new_line = line.to_owned();
         new_line.remove(i);
 
         if is_valid_line(&new_line) {
@@ -54,7 +54,7 @@ fn is_valid_line_with_tolerance(line: &Vec<usize>) -> bool {
     false
 }
 
-fn increasing(line: &Vec<usize>) -> bool {
+fn increasing(line: &[usize]) -> bool {
     for i in 1..line.len() {
         if line[i] <= line[i - 1] {
             return false;
@@ -64,7 +64,7 @@ fn increasing(line: &Vec<usize>) -> bool {
     true
 }
 
-fn decreasing(line: &Vec<usize>) -> bool {
+fn decreasing(line: &[usize]) -> bool {
     for i in 1..line.len() {
         if line[i] >= line[i - 1] {
             return false;
