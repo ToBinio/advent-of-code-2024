@@ -87,10 +87,7 @@ fn parse_input(file: String) -> Vec<Equation> {
                 .map(|num| num.parse().unwrap())
                 .collect();
 
-            Equation {
-                result,
-                values,
-            }
+            Equation { result, values }
         })
         .collect()
 }

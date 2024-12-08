@@ -8,6 +8,7 @@ use crate::day7::Day7;
 use std::fmt::Debug;
 use std::time::Instant;
 use std::{env, fs};
+use crate::day8::Day8;
 
 mod day1;
 mod day2;
@@ -16,6 +17,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 fn main() {
     let args: Vec<usize> = env::args()
@@ -33,6 +35,7 @@ fn main() {
         (5, star) => Day5::run(star),
         (6, star) => Day6::run(star),
         (7, star) => Day7::run(star),
+        (8, star) => Day8::run(star),
 
         (day, star) => {
             panic!("day: {} - star:{} not jet done", day, star);
