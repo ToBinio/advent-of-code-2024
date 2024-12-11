@@ -1,6 +1,5 @@
 use crate::Day;
 use std::collections::{HashMap, HashSet};
-use std::ops::Not;
 
 pub struct Day8 {}
 impl Day<usize> for Day8 {

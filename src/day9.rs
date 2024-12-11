@@ -1,6 +1,4 @@
 use crate::Day;
-use std::collections::{HashMap, HashSet};
-use std::ops::Not;
 
 pub struct Day9 {}
 impl Day<usize> for Day9 {
@@ -15,12 +13,12 @@ impl Day<usize> for Day9 {
             let (from_index, value) = vec
                 .iter()
                 .enumerate()
-                .rfind(|(_, char)| *char != "")
+                .rfind(|(_, char)| !char.is_empty())
                 .unwrap();
             let option = vec[0..from_index]
                 .iter()
                 .enumerate()
-                .find(|(_, char)| *char == "");
+                .find(|(_, char)| char.is_empty());
 
             let Some((to_index, _)) = option else {
                 break;
@@ -43,7 +41,7 @@ impl Day<usize> for Day9 {
         let mut index = 0;
 
         loop {
-            if (index > (vec.len() - 1)) {
+            if index > (vec.len() - 1) {
                 break;
             }
 
@@ -51,14 +49,14 @@ impl Day<usize> for Day9 {
             index += 1;
 
             let (value, count) = &vec[from_index];
-            if value == "" {
+            if value.is_empty() {
                 continue;
             }
 
             let option = vec[0..from_index]
                 .iter()
                 .enumerate()
-                .find(|(_, (char, empty_count))| *char == "" && empty_count >= count);
+                .find(|(_, (char, empty_count))| char.is_empty() && empty_count >= count);
 
             let Some((to_index, (_, empty_count))) = option else {
                 continue;
@@ -69,7 +67,7 @@ impl Day<usize> for Day9 {
             let value = value.to_string();
 
             vec[from_index].0 = "".to_string();
-            if (empty_count == count) {
+            if empty_count == count {
                 vec[to_index].0 = value;
             } else {
                 vec[to_index].0 = value;
@@ -91,7 +89,7 @@ impl Day<usize> for Day9 {
             };
 
             for x in (index - count)..index {
-                sum += (value * x);
+                sum += value * x;
             }
         }
 
@@ -101,16 +99,15 @@ impl Day<usize> for Day9 {
 fn parse_input_expand(file: &str) -> Vec<String> {
     file.chars()
         .enumerate()
-        .map(|(index, c)| {
+        .flat_map(|(index, c)| {
             let value = c.to_string().parse::<usize>().unwrap();
 
-            if (index % 2 == 0) {
+            if index % 2 == 0 {
                 vec![(index / 2).to_string(); value]
             } else {
                 vec!["".to_string(); value]
             }
         })
-        .flatten()
         .collect()
 }
 
@@ -120,7 +117,7 @@ fn parse_input(file: &str) -> Vec<(String, usize)> {
         .map(|(index, c)| {
             let value = c.to_string().parse::<usize>().unwrap();
 
-            if (index % 2 == 0) {
+            if index % 2 == 0 {
                 ((index / 2).to_string(), value)
             } else {
                 ("".to_string(), value)

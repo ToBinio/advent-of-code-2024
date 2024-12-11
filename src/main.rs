@@ -1,5 +1,6 @@
 use crate::day1::Day1;
 use crate::day10::Day10;
+use crate::day11::Day11;
 use crate::day2::Day2;
 use crate::day3::Day3;
 use crate::day4::Day4;
@@ -11,10 +12,10 @@ use crate::day9::Day9;
 use std::fmt::Debug;
 use std::time::Instant;
 use std::{env, fs};
-use crate::day11::Day11;
 
 mod day1;
 mod day10;
+mod day11;
 mod day2;
 mod day3;
 mod day4;
@@ -23,7 +24,6 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
-mod day11;
 
 fn main() {
     let args: Vec<usize> = env::args()

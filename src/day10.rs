@@ -1,6 +1,5 @@
 use crate::Day;
-use std::collections::{HashMap, HashSet};
-use std::ops::Not;
+use std::collections::HashSet;
 
 pub struct Day10 {}
 impl Day<usize> for Day10 {
@@ -55,41 +54,41 @@ impl Day<usize> for Day10 {
     }
 }
 
-fn get_peak_count(map: &Vec<Vec<usize>>, x: usize, y: usize) -> Vec<(usize, usize)> {
+fn get_peak_count(map: &[Vec<usize>], x: usize, y: usize) -> Vec<(usize, usize)> {
     let width = map[0].len();
     let height = map.len();
 
     let mut peaks = Vec::new();
 
-    if (map[y][x] == 9) {
+    if map[y][x] == 9 {
         peaks.push((x, y));
         return peaks;
     }
 
     if x > 0 && is_valid_slope(map, (x, y), (x - 1, y)) {
-        let new_peaks = get_peak_count(&map, x - 1, y);
+        let new_peaks = get_peak_count(map, x - 1, y);
         peaks.extend(new_peaks);
     }
 
     if y > 0 && is_valid_slope(map, (x, y), (x, y - 1)) {
-        let new_peaks = get_peak_count(&map, x, y - 1);
+        let new_peaks = get_peak_count(map, x, y - 1);
         peaks.extend(new_peaks);
     }
 
     if x < (width - 1) && is_valid_slope(map, (x, y), (x + 1, y)) {
-        let new_peaks = get_peak_count(&map, x + 1, y);
+        let new_peaks = get_peak_count(map, x + 1, y);
         peaks.extend(new_peaks);
     }
 
     if y < (height - 1) && is_valid_slope(map, (x, y), (x, y + 1)) {
-        let new_peaks = get_peak_count(&map, x, y + 1);
+        let new_peaks = get_peak_count(map, x, y + 1);
         peaks.extend(new_peaks);
     }
 
     peaks
 }
 
-fn is_valid_slope(map: &Vec<Vec<usize>>, from: (usize, usize), to: (usize, usize)) -> bool {
+fn is_valid_slope(map: &[Vec<usize>], from: (usize, usize), to: (usize, usize)) -> bool {
     map[to.1][to.0] > map[from.1][from.0] && (map[to.1][to.0] - map[from.1][from.0]) == 1
 }
 

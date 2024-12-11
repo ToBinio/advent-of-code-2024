@@ -1,6 +1,5 @@
 use crate::Day;
-use std::collections::{HashMap, HashSet};
-use std::ops::Not;
+use std::collections::HashMap;
 
 pub struct Day11 {}
 impl Day<usize> for Day11 {
@@ -12,20 +11,20 @@ impl Day<usize> for Day11 {
         let mut stones = parse_input(&file);
 
         for _ in 0..25 {
-            stones = step(&mut stones);
+            stones = step(&stones);
         }
 
-        stones.iter().map(|(_, value)| value).sum()
+        stones.values().sum()
     }
 
     fn run_star2(file: String) -> usize {
         let mut stones = parse_input(&file);
 
         for _ in 0..75 {
-            stones = step(&mut stones);
+            stones = step(&stones);
         }
 
-        stones.iter().map(|(_, value)| value).sum()
+        stones.values().sum()
     }
 }
 
